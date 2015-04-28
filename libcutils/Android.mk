@@ -121,6 +121,9 @@ LOCAL_SRC_FILES := $(commonSources) \
 LOCAL_SRC_FILES_arm += \
         arch-arm/memset32.S \
 
+# arch-arm/memset32.S does not compile with Clang.
+LOCAL_CLANG_ASFLAGS_arm += -no-integrated-as
+
 LOCAL_SRC_FILES_arm64 += \
         arch-arm64/android_memset.S \
 
@@ -143,7 +146,7 @@ LOCAL_CFLAGS_x86_64 += -DHAVE_MEMSET16 -DHAVE_MEMSET32
 
 LOCAL_C_INCLUDES := $(libcutils_c_includes)
 LOCAL_STATIC_LIBRARIES := liblog
-LOCAL_CFLAGS += $(targetSmpFlag) -Werror
+LOCAL_CFLAGS += $(targetSmpFlag) -Werror -std=gnu90
 LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
 include $(BUILD_STATIC_LIBRARY)
 
